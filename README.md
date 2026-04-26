@@ -22,7 +22,29 @@
 
 > Routers • Switches • Servers • End Devices — animated packet flows (ICMP · HTTP · ARP · Data)
 
-<img src="./network_topology.svg" alt="Animated Network Topology — 0xH1m4nshu" width="100%"/>
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  THREE WAYS TO EMBED THIS SVG — pick ONE and delete the others  ║
+  ╠══════════════════════════════════════════════════════════════════╣
+  ║                                                                  ║
+  ║  OPTION 1 ✅ RECOMMENDED — Raw GitHub URL (animations work)     ║
+  ║  Push network_topology.svg to your profile repo root, then use: ║
+  ║                                                                  ║
+  ║  <img src="https://raw.githubusercontent.com/0xH1m4nshu/        ║
+  ║  0xH1m4nshu/main/network_topology.svg"                          ║
+  ║       alt="Network Topology" width="100%"/>                     ║
+  ║                                                                  ║
+  ║  OPTION 2 ✅ Relative path (works after pushing to same repo)   ║
+  ║  <img src="./network_topology.svg" width="100%"/>               ║
+  ║                                                                  ║
+  ║  OPTION 3 ⚠️  GitHub Pages / Netlify / Vercel hosted URL        ║
+  ║  <img src="https://your-site.vercel.app/network_topology.svg"/> ║
+  ║                                                                  ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+
+<!-- ✅ OPTION 1 — Raw GitHub URL (ACTIVE — update username/repo/branch if needed) -->
+<img src="https://raw.githubusercontent.com/0xH1m4nshu/0xH1m4nshu/main/network_topology.svg" alt="Animated Network Topology — 0xH1m4nshu" width="100%"/>
 
 </div>
 

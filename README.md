@@ -23,6 +23,7 @@
 > Routers • Switches • Servers • End Devices — animated packet flows (ICMP · HTTP · ARP · Data)
 
 <img src="https://raw.githubusercontent.com/0xH1m4nshu/0xH1m4nshu/main/network_topology.gif" alt="Animated Network Topology — 0xH1m4nshu" width="100%"/>
+<!-- NOTE: Push network_topology.gif to your 0xH1m4nshu/0xH1m4nshu repo root on the main branch for this to display -->
 
 </div>
 

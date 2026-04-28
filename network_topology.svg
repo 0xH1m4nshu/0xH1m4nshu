@@ -1,0 +1,320 @@
+<svg width="680" height="480" viewBox="0 0 680 480" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Network topology — 0xH1m4nshu</title>
+<desc>Animated network diagram showing routers, switches, servers, PCs and packet flows</desc>
+
+<defs>
+  <!-- Packet animations along paths -->
+  <style>
+    .bg { fill: #0d1117; }
+    .wire { stroke: #30363d; stroke-width: 1.5; fill: none; }
+    .wire-active { stroke: #58a6ff; stroke-width: 1.5; fill: none; stroke-dasharray: 6 3; animation: dash 1s linear infinite; }
+
+    /* Device label text */
+    .lbl { font-family: 'Fira Code', monospace; font-size: 11px; fill: #8b949e; text-anchor: middle; }
+    .lbl-hi { font-family: 'Fira Code', monospace; font-size: 11px; fill: #e6edf3; text-anchor: middle; font-weight: 600; }
+
+    /* Router circle */
+    .router-body { fill: #1d3461; stroke: #58a6ff; stroke-width: 1.5; }
+    .router-arr { stroke: #79c0ff; stroke-width: 1.5; fill: none; stroke-linecap: round; }
+
+    /* Switch */
+    .sw-body { fill: #1a3a1a; stroke: #3fb950; stroke-width: 1.5; }
+    .sw-dot { fill: #3fb950; }
+
+    /* Server */
+    .srv-body { fill: #2d1f5e; stroke: #a371f7; stroke-width: 1.5; }
+    .srv-stripe { fill: #a371f7; opacity: 0.3; }
+
+    /* PC / end device */
+    .pc-body { fill: #3d2200; stroke: #d29922; stroke-width: 1.5; }
+    .pc-stand { stroke: #d29922; stroke-width: 1.5; fill: none; }
+
+    /* Controller */
+    .ctrl-body { fill: #3d1000; stroke: #f78166; stroke-width: 1.5; }
+    .ctrl-ring { stroke: #f78166; stroke-width: 1.5; fill: none; }
+
+    /* Packets — each follows a motion path */
+    .pkt { font-family: 'Fira Code', monospace; font-size: 8px; font-weight: 700; }
+    .pkt-icmp { fill: #ffa198; }
+    .pkt-http { fill: #56d364; }
+    .pkt-data { fill: #a371f7; }
+    .pkt-arp  { fill: #d29922; }
+
+    .pkt-box-icmp { fill: #3d0f0f; stroke: #ffa198; stroke-width: 1; rx: 3; }
+    .pkt-box-http { fill: #0d2a0d; stroke: #56d364; stroke-width: 1; }
+    .pkt-box-data { fill: #1e1040; stroke: #a371f7; stroke-width: 1; }
+    .pkt-box-arp  { fill: #2d1800; stroke: #d29922; stroke-width: 1; }
+
+    @keyframes dash { to { stroke-dashoffset: -18; } }
+
+    /* Packet 1: PING — DNS/HTTP → R2 → R1 → SW1 → R3 → WEB */
+    @keyframes pkt1-move {
+      0%   { offset-distance: 0%; opacity: 1; }
+      85%  { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .pkt1 {
+      offset-path: path("M 80 90 L 200 210 L 340 75 L 340 240 L 480 210 L 600 90");
+      offset-rotate: 0deg;
+      animation: pkt1-move 3s ease-in-out infinite;
+    }
+
+    /* Packet 2: HTTP response — WEB → R3 → SW1 → R1 → R2 → DNS */
+    @keyframes pkt2-move {
+      0%   { offset-distance: 0%; opacity: 0; }
+      10%  { opacity: 0; }
+      12%  { opacity: 1; }
+      95%  { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .pkt2 {
+      offset-path: path("M 600 90 L 480 210 L 340 240 L 340 75 L 200 210 L 80 90");
+      offset-rotate: 0deg;
+      animation: pkt2-move 3s ease-in-out 1.5s infinite;
+    }
+
+    /* Packet 3: ARP — PC-R2 → R2 broadcast */
+    @keyframes pkt3-move {
+      0%   { offset-distance: 0%; opacity: 1; }
+      80%  { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .pkt3 {
+      offset-path: path("M 150 360 L 200 210 L 240 360");
+      offset-rotate: 0deg;
+      animation: pkt3-move 2s ease-in-out 0.5s infinite;
+    }
+
+    /* Packet 4: data — Laptop → R2 → SW1 */
+    @keyframes pkt4-move {
+      0%   { offset-distance: 0%; opacity: 1; }
+      85%  { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .pkt4 {
+      offset-path: path("M 250 360 L 200 210 L 340 240");
+      offset-rotate: 0deg;
+      animation: pkt4-move 2.2s ease-in-out 1s infinite;
+    }
+
+    /* Packet 5: data — PC1 → R3 → SW1 */
+    @keyframes pkt5-move {
+      0%   { offset-distance: 0%; opacity: 1; }
+      85%  { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .pkt5 {
+      offset-path: path("M 450 360 L 480 210 L 340 240");
+      offset-rotate: 0deg;
+      animation: pkt5-move 2.4s ease-in-out 0.8s infinite;
+    }
+
+    /* Pulse rings on routers */
+    @keyframes pulse {
+      0%   { r: 22; opacity: 0.6; }
+      100% { r: 36; opacity: 0; }
+    }
+    .pulse { animation: pulse 2s ease-out infinite; fill: none; stroke: #58a6ff; stroke-width: 1; }
+    .pulse-r1 { animation-delay: 0s; }
+    .pulse-r2 { animation-delay: 0.6s; }
+    .pulse-r3 { animation-delay: 1.2s; }
+
+    /* Blink dots on switch */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+    .dot1 { animation: blink 1.1s ease-in-out infinite; }
+    .dot2 { animation: blink 1.1s ease-in-out 0.27s infinite; }
+    .dot3 { animation: blink 1.1s ease-in-out 0.54s infinite; }
+    .dot4 { animation: blink 1.1s ease-in-out 0.81s infinite; }
+
+    /* Legend */
+    .leg { font-family: 'Fira Code', monospace; font-size: 10px; fill: #8b949e; }
+  </style>
+</defs>
+
+<!-- Background -->
+<rect class="bg" width="680" height="480" rx="12"/>
+
+<!-- Grid subtle lines -->
+<line x1="0" y1="160" x2="680" y2="160" stroke="#ffffff" stroke-width="0.3" opacity="0.04"/>
+<line x1="0" y1="310" x2="680" y2="310" stroke="#ffffff" stroke-width="0.3" opacity="0.04"/>
+<line x1="200" y1="0" x2="200" y2="480" stroke="#ffffff" stroke-width="0.3" opacity="0.04"/>
+<line x1="480" y1="0" x2="480" y2="480" stroke="#ffffff" stroke-width="0.3" opacity="0.04"/>
+
+<!-- ═══════════════ WIRES ═══════════════ -->
+<!-- DNS/HTTP server → R2 -->
+<line class="wire" x1="80" y1="90" x2="200" y2="210"/>
+<!-- R2 → R1 -->
+<line class="wire" x1="200" y1="210" x2="340" y2="75"/>
+<!-- R1 → WEB-SLG -->
+<line class="wire" x1="340" y1="75" x2="600" y2="90"/>
+<!-- R1 → SW1 -->
+<line class="wire" x1="340" y1="75" x2="340" y2="240"/>
+<!-- R2 → SW1 -->
+<line class="wire" x1="200" y1="210" x2="340" y2="240"/>
+<!-- R3 → SW1 -->
+<line class="wire" x1="480" y1="210" x2="340" y2="240"/>
+<!-- R3 → WEB-SLG -->
+<line class="wire" x1="480" y1="210" x2="600" y2="90"/>
+<!-- R2 → PC-R2 -->
+<line class="wire" x1="200" y1="210" x2="150" y2="360"/>
+<!-- R2 → Laptop -->
+<line class="wire" x1="200" y1="210" x2="250" y2="360"/>
+<!-- SW1 → SDN Ctrl -->
+<line class="wire" x1="340" y1="240" x2="340" y2="385"/>
+<!-- R3 → PC1 -->
+<line class="wire" x1="480" y1="210" x2="450" y2="360"/>
+<!-- R3 → Phone -->
+<line class="wire" x1="480" y1="210" x2="540" y2="360"/>
+<!-- R3 → Printer -->
+<line class="wire" x1="480" y1="210" x2="620" y2="360"/>
+
+<!-- Active wires (animated dashes) -->
+<line class="wire-active" x1="200" y1="210" x2="340" y2="75" opacity="0.5"/>
+<line class="wire-active" x1="340" y1="240" x2="480" y2="210" opacity="0.4"/>
+
+<!-- ═══════════════ DEVICES ═══════════════ -->
+
+<!-- DNS/HTTP Server (top-left) -->
+<g>
+  <rect class="srv-body" x="58" y="62" width="44" height="56" rx="5"/>
+  <rect class="srv-stripe" x="64" y="70" width="32" height="8" rx="2"/>
+  <rect class="srv-stripe" x="64" y="82" width="32" height="8" rx="2"/>
+  <rect class="srv-stripe" x="64" y="94" width="32" height="8" rx="2"/>
+  <text class="lbl" x="80" y="132">DNS/HTTP</text>
+</g>
+
+<!-- WEB-SLG Server (top-right) -->
+<g>
+  <rect class="srv-body" x="578" y="62" width="44" height="56" rx="5"/>
+  <rect class="srv-stripe" x="584" y="70" width="32" height="8" rx="2"/>
+  <rect class="srv-stripe" x="584" y="82" width="32" height="8" rx="2"/>
+  <rect class="srv-stripe" x="584" y="94" width="32" height="8" rx="2"/>
+  <text class="lbl" x="600" y="132">WEB-SLG</text>
+</g>
+
+<!-- R1 Router (top-center) — with pulse -->
+<circle class="pulse pulse-r1" cx="340" cy="75"/>
+<circle class="router-body" cx="340" cy="75" r="26"/>
+<line class="router-arr" x1="340" y1="58" x2="340" y2="65"/>
+<line class="router-arr" x1="340" y1="85" x2="340" y2="92"/>
+<line class="router-arr" x1="323" y1="75" x2="330" y2="75"/>
+<line class="router-arr" x1="350" y1="75" x2="357" y2="75"/>
+<circle cx="340" cy="75" r="6" fill="none" stroke="#79c0ff" stroke-width="1"/>
+<text class="lbl-hi" x="340" y="116">R1</text>
+
+<!-- R2 Router (mid-left) — with pulse -->
+<circle class="pulse pulse-r2" cx="200" cy="210"/>
+<circle class="router-body" cx="200" cy="210" r="26"/>
+<line class="router-arr" x1="200" y1="193" x2="200" y2="200"/>
+<line class="router-arr" x1="200" y1="220" x2="200" y2="227"/>
+<line class="router-arr" x1="183" y1="210" x2="190" y2="210"/>
+<line class="router-arr" x1="210" y1="210" x2="217" y2="210"/>
+<circle cx="200" cy="210" r="6" fill="none" stroke="#79c0ff" stroke-width="1"/>
+<text class="lbl-hi" x="200" y="251">R2</text>
+
+<!-- R3 Router (mid-right) — with pulse -->
+<circle class="pulse pulse-r3" cx="480" cy="210"/>
+<circle class="router-body" cx="480" cy="210" r="26"/>
+<line class="router-arr" x1="480" y1="193" x2="480" y2="200"/>
+<line class="router-arr" x1="480" y1="220" x2="480" y2="227"/>
+<line class="router-arr" x1="463" y1="210" x2="470" y2="210"/>
+<line class="router-arr" x1="490" y1="210" x2="497" y2="210"/>
+<circle cx="480" cy="210" r="6" fill="none" stroke="#79c0ff" stroke-width="1"/>
+<text class="lbl-hi" x="480" y="251">R3</text>
+
+<!-- SW1 Switch (center) -->
+<rect class="sw-body" x="310" y="224" width="60" height="32" rx="6"/>
+<circle class="sw-dot dot1" cx="322" cy="244" r="3.5" fill="#3fb950"/>
+<circle class="sw-dot dot2" cx="333" cy="244" r="3.5" fill="#3fb950"/>
+<circle class="sw-dot dot3" cx="347" cy="244" r="3.5" fill="#3fb950"/>
+<circle class="sw-dot dot4" cx="358" cy="244" r="3.5" fill="#3fb950"/>
+<line stroke="#3fb950" stroke-width="1" x1="315" y1="235" x2="365" y2="235"/>
+<text class="lbl" x="340" y="275">SW1</text>
+
+<!-- PC-R2 -->
+<rect class="pc-body" x="128" y="352" width="44" height="30" rx="4"/>
+<line class="pc-stand" x1="138" y1="382" x2="162" y2="382"/>
+<line class="pc-stand" x1="150" y1="382" x2="150" y2="390"/>
+<line class="pc-stand" x1="144" y1="390" x2="156" y2="390"/>
+<text class="lbl" x="150" y="408">PC-R2</text>
+
+<!-- Laptop -->
+<rect class="pc-body" x="228" y="352" width="44" height="28" rx="4"/>
+<path class="pc-stand" d="M 222 380 L 278 380 L 275 390 L 225 390 Z"/>
+<text class="lbl" x="250" y="408">Laptop</text>
+
+<!-- SDN Controller -->
+<rect class="ctrl-body" x="316" y="385" width="48" height="36" rx="8"/>
+<circle class="ctrl-ring" cx="340" cy="403" r="10"/>
+<circle cx="340" cy="403" r="4" fill="#f78166"/>
+<text class="lbl" x="340" y="434">SDN Ctrl</text>
+
+<!-- PC1 -->
+<rect class="pc-body" x="428" y="352" width="44" height="30" rx="4"/>
+<line class="pc-stand" x1="438" y1="382" x2="462" y2="382"/>
+<line class="pc-stand" x1="450" y1="382" x2="450" y2="390"/>
+<line class="pc-stand" x1="444" y1="390" x2="456" y2="390"/>
+<text class="lbl" x="450" y="408">PC1</text>
+
+<!-- Phone -->
+<rect class="pc-body" x="520" y="355" width="40" height="28" rx="6"/>
+<rect x="526" y="358" width="28" height="18" rx="2" fill="#d29922" opacity="0.2"/>
+<text class="lbl" x="540" y="400">Phone</text>
+
+<!-- Printer -->
+<rect class="pc-body" x="600" y="352" width="44" height="28" rx="4"/>
+<rect x="606" y="358" width="32" height="10" rx="2" fill="#d29922" opacity="0.25"/>
+<rect x="610" y="372" width="24" height="6" rx="1" fill="#d29922" opacity="0.2"/>
+<text class="lbl" x="622" y="398">Printer</text>
+
+<!-- ═══════════════ ANIMATED PACKETS ═══════════════ -->
+
+<!-- Packet 1: ICMP PING (red) -->
+<g class="pkt1">
+  <rect x="-14" y="-7" width="28" height="14" rx="3" fill="#3d0f0f" stroke="#ffa198" stroke-width="1"/>
+  <text class="pkt pkt-icmp" x="0" y="4" text-anchor="middle">PING</text>
+</g>
+
+<!-- Packet 2: HTTP (green) -->
+<g class="pkt2">
+  <rect x="-14" y="-7" width="28" height="14" rx="3" fill="#0d2a0d" stroke="#56d364" stroke-width="1"/>
+  <text class="pkt pkt-http" x="0" y="4" text-anchor="middle">HTTP</text>
+</g>
+
+<!-- Packet 3: ARP (amber) -->
+<g class="pkt3">
+  <rect x="-13" y="-7" width="26" height="14" rx="3" fill="#2d1800" stroke="#d29922" stroke-width="1"/>
+  <text class="pkt pkt-arp" x="0" y="4" text-anchor="middle">ARP</text>
+</g>
+
+<!-- Packet 4: DATA (purple) R2→SW1 -->
+<g class="pkt4">
+  <rect x="-13" y="-7" width="26" height="14" rx="3" fill="#1e1040" stroke="#a371f7" stroke-width="1"/>
+  <text class="pkt pkt-data" x="0" y="4" text-anchor="middle">PKT</text>
+</g>
+
+<!-- Packet 5: DATA (purple) R3→SW1 -->
+<g class="pkt5">
+  <rect x="-13" y="-7" width="26" height="14" rx="3" fill="#1e1040" stroke="#a371f7" stroke-width="1"/>
+  <text class="pkt pkt-data" x="0" y="4" text-anchor="middle">PKT</text>
+</g>
+
+<!-- ═══════════════ LEGEND ═══════════════ -->
+<rect x="20" y="448" width="640" height="24" rx="6" fill="#161b22" opacity="0.8"/>
+<!-- ICMP -->
+<rect x="30" y="454" width="26" height="11" rx="2" fill="#3d0f0f" stroke="#ffa198" stroke-width="1"/>
+<text class="leg" x="62" y="463">ICMP</text>
+<!-- HTTP -->
+<rect x="110" y="454" width="26" height="11" rx="2" fill="#0d2a0d" stroke="#56d364" stroke-width="1"/>
+<text class="leg" x="142" y="463">HTTP</text>
+<!-- ARP -->
+<rect x="190" y="454" width="26" height="11" rx="2" fill="#2d1800" stroke="#d29922" stroke-width="1"/>
+<text class="leg" x="222" y="463">ARP</text>
+<!-- Data -->
+<rect x="270" y="454" width="26" height="11" rx="2" fill="#1e1040" stroke="#a371f7" stroke-width="1"/>
+<text class="leg" x="302" y="463">Data</text>
+<!-- Handle -->
+<text class="leg" x="490" y="463" text-anchor="end">0xH1m4nshu — CCNA 200-301</text>
+<text class="leg" x="500" y="463" fill="#58a6ff">github.com/0xH1m4nshu</text>
+
+</svg>

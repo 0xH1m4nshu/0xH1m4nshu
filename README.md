@@ -16,19 +16,6 @@
 
 ---
 
-## 🖥️ Live Network Topology
-
-<div align="center">
-
-> Routers • Switches • Servers • End Devices — animated packet flows (ICMP · HTTP · ARP · Data)
-
-<img src="https://raw.githubusercontent.com/0xH1m4nshu/0xH1m4nshu/main/network_topology.svg" width="50%"/>
-<!-- NOTE: Push network_topology.gif to your 0xH1m4nshu/0xH1m4nshu repo root on the main branch for this to display -->
-
-</div>
-
----
-
 <img align="right" src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="270" alt="hacking gif"/>
 
 ## 🧑‍💻 `$ whoami`
@@ -47,6 +34,18 @@ Fun fact : My best sessions run at 2AM 🌙
 
 <br clear="right"/>
 
+---
+
+## 🖥️ Live Network Topology
+
+<div align="center">
+
+> Routers • Switches • Servers • End Devices — animated packet flows (ICMP · HTTP · ARP · Data)
+
+<img src="https://raw.githubusercontent.com/0xH1m4nshu/0xH1m4nshu/main/network_topology.svg" width="50%"/>
+<!-- NOTE: Push network_topology.gif to your 0xH1m4nshu/0xH1m4nshu repo root on the main branch for this to display -->
+
+</div>
 ---
 
 ## 🏅 GitHub Trophies
